@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caça-Palavras Interativo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        table {
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        td {
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            font-size: 20px;
+            border: 1px solid black;
+            cursor: pointer;
+        }
+        .selected {
+            background-color: lightblue;
+        }
+        .correct {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Caça-Palavras Interativo</h1>
+    <p>Encontre palavras como: SOL, LUA, TERRA, MARTE, SATURNO</p>
+
+    <table id="wordGrid">
+        <tr>
+            <td>S</td><td>A</td><td>T</td><td>U</td><td>R</td><td>N</td><td>O</td>
+        </tr>
+        <tr>
+            <td>M</td><td>A</td><td>R</td><td>T</td><td>E</td><td>X</td><td>Z</td>
+        </tr>
+        <tr>
+            <td>T</td><td>E</td><td>R</td><td>R</td><td>A</td><td>L</td><td>P</td>
+        </tr>
+        <tr>
+            <td>L</td><td>U</td><td>A</td><td>O</td><td>P</td><td>G</td><td>K</td>
+        </tr>
+        <tr>
+            <td>S</td><td>O</td><td>L</td><td>E</td><td>M</td><td>Q</td><td>H</td>
+        </tr>
+    </table>
+
+    <button onclick="checkWord()">Verificar Palavra</button>
+
+    <script>
+        let selectedCells = [];
+        const words = ["SOL", "LUA", "TERRA", "MARTE", "SATURNO"];
+
+        document.querySelectorAll("td").forEach(cell => {
+            cell.addEventListener("click", () => {
+                if (!cell.classList.contains("correct")) {
+                    cell.classList.toggle("selected");
+
+                    if (cell.classList.contains("selected")) {
+                        selectedCells.push(cell);
+                    } else {
+                        selectedCells = selectedCells.filter(c => c !== cell);
+                    }
+                }
+            });
+        });
+
+        function checkWord() {
+            const selectedWord = selectedCells.map(cell => cell.textContent.trim()).join("");
+
+            if (words.includes(selectedWord)) {
+                selectedCells.forEach(cell => {
+                    cell.classList.add("correct");
+                    cell.classList.remove("selected");
+                });
+                alert(`Parabéns! Você encontrou a palavra: ${selectedWord}`);
+            } else {
+                alert("Essa sequência não forma uma palavra válida. Tente novamente!");
+                selectedCells.forEach(cell => cell.classList.remove("selected"));
+                selectedCells = [];
+            }
+        }
+    </script>
+
+</body>
+</html>
